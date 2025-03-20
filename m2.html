@@ -7,8 +7,34 @@
         <link rel="stylesheet" href="menu.css">
     </head>
     <body>
+        <h1>The canvas element</h1>
+
+<canvas id="myCanvas">
+Your browser does not support the canvas tag.
+</canvas>
+
+<script>
+const c = document.getElementById("myCanvas");
+const ctx = c.getContext("2d");
+ctx.fillStyle = "red";
+ctx.fillRect(20, 20, 75, 50);
+
+//Turn transparency on
+ctx.globalAlpha = 0.2;
+ctx.fillStyle = "blue"; 
+ctx.fillRect(50, 50, 75, 50); 
+ctx.fillStyle = "green"; 
+ctx.fillRect(80, 80, 75, 50);
+</script>
         <header>
             <nav>
+                <h1>Protótipo</h1>
+
+<search>
+  <form>
+    <input name="fsrch" id="fsrch" placeholder="Search W3Schools">
+  </form>
+</search>
                 <ul class="menu">
                     <li>
                         <a href="#">Inicio</a>
@@ -35,10 +61,20 @@
                     <li><a href="#">Contato</a></li>
                 </ul>
             </nav>
-            <ul> Meu nome é Lucas Tedesco Santos. Eu tenho 16 anos e estudo no Instituto Federal do Parána Campus Cascavel.</ul>
+            <ul> <div id="example-paragraphs">
+                <p>Meu nome é Lucas Tedesco Santos.</p>
+                <p>Eu tenho 16 anos e estudo no Instituto Federal do Paraná Campus Cascavel.</p>
+              </div>
+            </ul>
             <ul> <img src="sunset.jpg" alt="Gracious Sunset" width="700" height="600">
-            <ul> tedescosantoslucas955@gmail.com
-                github: LucasTS-42034
+            <ul> <address>
+                Escrito por <a href="https://github.com/LucasTS-42034">Lucas Tedesco</a>.<br>
+                Email:<br>
+                tedescosantoslucas955@gmail.com<br>
+                Box 564, Disneyland<br>
+                Brasil
+             <a href="https://guthib.com/?source=techstories.org">Guthib</a>.<br>
+                </address>
             </ul>
         </header>
     </body>
