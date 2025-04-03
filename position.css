@@ -1,0 +1,24 @@
+.sibling-element {
+    background-color: #f2f2f2;
+    border: 1px solid black;
+}
+
+.main-element {
+    position: sticky;
+    left: 10px;
+    top: 10px;
+    background-color: yellow;
+    padding: 10px;
+}
+
+.parent-element {
+    position: relative;
+    height: 800px;
+    padding: 50px 10px;
+    background-color: #81adc8;
+}
+
+html {
+    height: 800px;
+}
+
