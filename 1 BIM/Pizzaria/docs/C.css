@@ -1,0 +1,217 @@
+/* Cores harmonizadas */
+body {
+  font-family: "Raleway", sans-serif;
+  background-color: #fff5ec;
+  color: #333333;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+header {
+  background: #2C3E50;
+  color: white;
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav ul {
+  list-style: none;
+  text-align: center;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav ul li a:hover {
+  color: #E67E22;
+}
+
+.intro {
+  background-image: url("grandepizza.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: darken;
+}
+
+.intro h1 {
+  font-size: 4rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  margin-bottom: 20px;
+}
+
+.intro h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+button {
+  background-color: #8B0000;
+  color: white;
+  padding: 15px 35px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #E67E22;
+  transform: scale(1.05);
+}
+
+.cardapio-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.cardapio-item {
+  background-color: #fff5ec;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  padding: 20px;
+  width: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardapio-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.cardapio-item p {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #8B0000;
+}
+
+.cardapio-item img {
+  width: 100%;
+  height: auto;
+  max-height: 150px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+section h3 {
+  color: #8B0000;
+  font-size: 1.8rem;
+  margin: 40px 0 20px;
+  border-bottom: 2px solid #8B0000;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.descricao {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 5px;
+  line-height: 1.6;
+}
+
+form {
+  text-align: center;
+}
+
+.sugestao-form {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: left;
+  background-color: #fff5ec;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sugestao-form .form-group {
+  margin-bottom: 20px;
+}
+
+.sugestao-form label,
+.sugestao-form legend {
+  font-weight: bold;
+  color: #8B0000;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.sugestao-form input[type="text"],
+.sugestao-form input[type="number"],
+.sugestao-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.sugestao-form input[type="text"]:focus,
+.sugestao-form input[type="number"]:focus,
+.sugestao-form textarea:focus {
+  outline: none;
+  border-color: #8B0000;
+  box-shadow: 0 0 5px rgba(139, 0, 0, 0.4);
+}
+
+footer {
+  background-color: #2C3E50;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+
+footer i {
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+footer i:hover {
+  color: #E67E22;
+}
+
+@media (max-width: 600px) {
+  .cardapio-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}

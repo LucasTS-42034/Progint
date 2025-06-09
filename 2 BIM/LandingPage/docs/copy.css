@@ -1,0 +1,96 @@
+/* Fonte, espaçamento e fundo */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  background: #f8f9fa;
+}
+
+/* Header e Navbar personalizados */
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #ffd54f !important;
+}
+
+/* Main Section */
+#secao1 {
+  box-shadow: 0 0 20px rgb(0 0 0 / 0.05);
+}
+
+#secao1 .btn-primary {
+  font-weight: 600;
+  padding: 0.9rem 2.2rem;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+}
+
+#secao1 .btn-primary:hover {
+  background-color: #5c3ed7;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
+}
+
+.card .card-link.btn {
+  font-size: 0.9rem;
+  padding: 0.4rem 1rem;
+  border-radius: 25px;
+  transition: background-color 0.3s ease;
+}
+
+.card .card-link.btn-outline-primary:hover {
+  background-color: #7f5af0;
+  color: white !important;
+}
+
+/* Carousel */
+.carousel-inner img {
+  height: 350px;
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(100%);
+  background-size: 50%, 50%;
+}
+
+/* Footer */
+footer {
+  background-color: #492e87;
+  color: white;
+}
+
+footer .social-icons i {
+  margin: 0 12px;
+  cursor: pointer;
+  color: white;
+  transition: color 0.3s ease;
+  font-size: 1.8rem;
+}
+
+footer .social-icons i:hover {
+  color: #b9e5e8;
+}

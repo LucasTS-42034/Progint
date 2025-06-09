@@ -1,0 +1,54 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f8f9fa;
+  line-height: 1.6;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+#secao1 {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+#secao1 .button.is-primary {
+  font-weight: 600;
+  padding: 0.9rem 2.2rem;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+}
+
+#secao1 .button.is-primary:hover {
+  background-color: #5c3ed7;
+}
+
+/* Card */
+.card {
+  border-radius: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Footer */
+.footer {
+  padding: 2rem 1.5rem;
+}
+
+.social-icons i {
+  margin: 0 12px;
+  cursor: pointer;
+  color: white;
+  transition: color 0.3s ease;
+  font-size: 1.8rem;
+}
+
+.social-icons i:hover {
+  color: #b9e5e8;
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Landing Page com Bulma</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="https://unpkg.com/feather-icons"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="https://bulma.io">
+            <!-- SVG OMITIDO PARA RESUMIR -->
+            <strong>Logo</strong>
+          </a>
+
+          <a
+            role="button"
+            class="navbar-burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarBasicExample"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item">Home</a>
+            <a class="navbar-item">Documentação</a>
+
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">Mais</a>
+              <div class="navbar-dropdown">
+                <a class="navbar-item">Sobre</a>
+                <a class="navbar-item is-active">Vagas</a>
+                <a class="navbar-item">Contato</a>
+                <hr class="navbar-divider" />
+                <a class="navbar-item">Reportar um erro</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-primary"><strong>Cadastre-se</strong></a>
+                <a class="button is-light">Entrar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <section id="secao1" class="box has-text-centered mb-6">
+          <h1 class="title is-2 has-text-primary">
+            Bem-vindo à nossa Landing Page
+          </h1>
+          <p class="subtitle is-5">
+            Criamos sites modernos, responsivos e otimizados para você!
+          </p>
+          <button class="button is-primary is-large">Comece Agora</button>
+
+          <div class="card mt-5">
+            <div class="card-image">
+              <figure class="image is-4by3">
+                <img
+                  src="https://bulma.io/assets/images/placeholders/1280x960.png"
+                  alt="Imagem exemplo"
+                />
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="media">
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                    <img
+                      src="https://bulma.io/assets/images/placeholders/96x96.png"
+                      alt="Avatar"
+                    />
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <p class="title is-4">John Smith</p>
+                  <p class="subtitle is-6">@johnsmith</p>
+                </div>
+              </div>
+
+              <div class="content">
+                Lorem ipsum dolor sit amet. <a>@bulmaio</a> <a>#css</a>
+                <a>#responsive</a>
+                <br />
+                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="secao3" class="section has-text-centered">
+          <h2 class="title is-3 has-text-primary">Sobre Nós</h2>
+          <p class="mb-4">
+            Somos uma equipe dedicada a levar seu negócio para o mundo digital.
+          </p>
+
+          <figure class="image is-3by2 is-inline-block mb-5">
+            <img src="img/sbreNos.jpeg" alt="Sobre nós" />
+          </figure>
+        </section>
+
+        <section id="secao4" class="section has-text-centered">
+          <h2 class="title is-3 has-text-primary">Contato</h2>
+          <p class="mb-4">
+            Entre em contato conosco para tirar dúvidas ou solicitar um
+            orçamento.
+          </p>
+
+          <figure class="image is-3by2 is-inline-block mb-5">
+            <img src="img/contato.png" alt="Contato" />
+          </figure>
+
+          <form
+            class="box mx-auto"
+            style="max-width: 480px"
+            onsubmit="event.preventDefault(); alert('Formulário enviado!');"
+          >
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="e.g Alex Smith" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="email"
+                  placeholder="e.g. alexsmith@gmail.com"
+                />
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <footer
+      class="footer has-background-primary has-text-white has-text-centered"
+    >
+      <div class="content">
+        <h4>Estamos presentes em:</h4>
+        <div class="social-icons mb-3">
+          <i data-feather="github"></i>
+          <i data-feather="twitter"></i>
+          <i data-feather="instagram"></i>
+          <i data-feather="facebook"></i>
+        </div>
+        <p>&copy; 2025 Alguma empresa. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>
