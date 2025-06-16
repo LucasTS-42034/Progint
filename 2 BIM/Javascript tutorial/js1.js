@@ -1,18 +1,28 @@
-function mostrarOla() {
-    let nome = document.getElementById("nome").value; 
-    document.getElementById("resposta").innerHTML = "Olá " + nome;
-  }
-  
-  const mostrar = document.getElementById("mostrar");
+const display = document.getElementById('display');
 
-  mostrar.addEventListener("click", mostrarOla);  
+function appendNumber(num) {
+    display.value += num;
+}
 
-  function calcul() {
-    let some = document.getElementById("calcu").value;
-    document.getElementById("calcular").ariaValueNow(some + 3);
-  }
+function appendOperator(op) {
+    if (display.value === '') return;
+    const lastChar = display.value.slice(-1);
+    if ('+-*/'.includes(lastChar)) {
+        display.value = display.value.slice(0, -1) + op;
+    } else {
+        display.value += op;
+    }
+}
 
-  
-  const cal = document.getElementById("Calcular");
+function clearDisplay() {
+    display.value = '';
+}
 
-  mostrar.addEventListener("click", calcul);
+function calculateResult() {
+    try {
+        const result = eval(display.value);
+        display.value = result;
+    } catch {
+        display.value = 'Erro';
+    }
+}
