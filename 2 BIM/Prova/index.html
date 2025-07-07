@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consulta CEP</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Consulta de Endereço por CEP</h1>
+
+      <label>Nome:</label>
+      <input
+        type="text"
+        id="nome"
+        maxlength="100"
+        placeholder="Ex: João da Silva"
+        required
+      />
+
+      <label>Email:</label>
+      <input
+        type="text"
+        id="email"
+        maxlength="70"
+        placeholder="Ex: JoaoSilva@gmail.com"
+        required
+      />
+
+      <label>Número:</label>
+      <input
+        type="number"
+        id="numb"
+        maxlength="5"
+        placeholder="EX: 42034"
+        required
+      />
+
+      <form id="cepForm">
+        <label for="cep">Digite o CEP:</label>
+        <input
+          type="text"
+          id="cep"
+          maxlength="9"
+          placeholder="Ex: 01001-000"
+          required
+        />
+
+        <button type="submit">Prosseguir</button>
+        <button type="button" id="salvarCep">Salvar CEP</button>
+      </form>
+
+      <div id="resultado" class="resultado">
+        <h2>CEPs Salvos</h2>
+        <ul id="listaCeps"></ul>
+
+        <label>CEP:</label>
+        <input type="text" id="cepInfo" readonly />
+
+        <label>Rua:</label>
+        <input type="text" id="rua" readonly />
+
+        <label>Bairro:</label>
+        <input type="text" id="bairro" readonly />
+
+        <label>Cidade:</label>
+        <input type="text" id="cidade" readonly />
+
+        <label>UF:</label>
+        <input type="text" id="uf" readonly />
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
