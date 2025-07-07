@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8"> <!-- Define que os caracteres especiais como acentos funcionarão corretamente -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Responsividade: adapta o layout para celular -->
+  <title>Consulta de CEP</title> <!-- Título da aba do navegador -->
+  <link rel="stylesheet" href="style.css"> <!-- Conecta o CSS externo à página -->
+</head>
+
+<body>
+  <div class="container">
+    <h1>🔍 Consulta de Endereço por CEP</h1> <!-- Título da página -->
+
+    <!-- Formulário para digitar o CEP -->
+    <form id="cepForm">
+      <label for="cep">Digite o CEP:</label>
+      <input type="text" id="cep" maxlength="9" placeholder="Ex: 01001-000" required>
+      <!-- Botão que dispara o JavaScript ao ser clicado -->
+      <button type="submit">Prosseguir</button>
+      <!-- Botão para salvar o CEP atual -->
+      <button type="button" id="salvarCep">Salvar CEP</button>
+
+    </form>
+
+    <!-- Div com os campos de endereço preenchidos automaticamente -->
+    <div id="resultado" class="resultado">
+      <!-- Cada campo é somente leitura (readonly), o usuário não pode digitar manualmente -->
+      <h2>📌 CEPs Salvos</h2>
+      <ul id="listaCeps"></ul>
+
+
+      <label>CEP:</label>
+      <input type="text" id="cepInfo" readonly>
+
+      <label>Rua:</label>
+      <input type="text" id="rua" readonly>
+
+      <label>Complemento:</label>
+      <input type="text" id="complemento" readonly>
+
+      <label>Bairro:</label>
+      <input type="text" id="bairro" readonly>
+
+      <label>Cidade:</label>
+      <input type="text" id="cidade" readonly>
+
+      <label>Estado (UF):</label>
+      <input type="text" id="uf" readonly>
+
+      <label>Estado (Nome completo):</label>
+      <input type="text" id="estado" readonly>
+
+      <label>Região:</label>
+      <input type="text" id="regiao" readonly>
+
+      <label>IBGE:</label>
+      <input type="text" id="ibge" readonly>
+
+      <label>GIA:</label>
+      <input type="text" id="gia" readonly>
+
+      <label>DDD:</label>
+      <input type="text" id="ddd" readonly>
+
+      <label>SIAFI:</label>
+      <input type="text" id="siafi" readonly>
+    </div>
+
+  </div>
+
+
+
+  <!-- Conecta o JavaScript no final do body para garantir que o HTML carregue primeiro -->
+  <script src="script.js"></script>
+</body>
+
+</html>
