@@ -384,3 +384,226 @@ document.getElementById("formAluno").reset();
 ---
 
 Quer que eu monte um **roteiro de explicação** (tipo mini-falinha pronta por trecho de código), caso ele peça para você “explicar em voz alta”? Isso evita travar quando o professor apontar para uma linha aleatória.
+
+
+
+
+
+
+Então já entendi a pegadinha: ele não quer só um CRUD funcionando, ele quer que você **imite o projeto dele até ficar idêntico**, tanto no backend quanto no front. Isso significa que ele pode variar a ordem dos testes, mas os pontos que listei antes são praticamente inevitáveis. Vou ajustar seu código para ficar mais “prova à prova de bala”: com validação de CPF, botões de editar/deletar no front, middleware de log e respostas HTTP mais “bonitinhas”. Assim, se ele pedir alguma variação, você já tem pronto.
+
+---
+
+## Ajustes no **server.js**
+
+```js
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+
+const app = express();
+const PORT = 3000;
+
+// Middleware global
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static("public"));
+
+// Middleware simples para logar cada requisição
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
+// Importa as rotas
+const alunoRoutes = require("./rotas/alunos");
+app.use("/alunos", alunoRoutes);
+
+// Inicializa o servidor
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
+```
+
+---
+
+## Ajustes no **rotas/alunos.js**
+
+```js
+const express = require("express");
+const router = express.Router();
+const { readData, writeData } = require("../middleware/db");
+
+// GET - listar todos
+router.get("/", (req, res) => {
+  const alunos = readData();
+  res.status(200).json(alunos);
+});
+
+// POST - inserir
+router.post("/", (req, res) => {
+  const alunos = readData();
+  const novoAluno = req.body;
+
+  // validação: não cadastrar 2 CPFs iguais
+  if (alunos.some((a) => a.cpf === novoAluno.cpf)) {
+    return res.status(400).json({ message: "CPF já cadastrado!" });
+  }
+
+  alunos.push(novoAluno);
+  writeData(alunos);
+  res.status(201).json({ message: "Aluno cadastrado com sucesso!" });
+});
+
+// PUT - editar pelo CPF
+router.put("/:cpf", (req, res) => {
+  const alunos = readData();
+  const { cpf } = req.params;
+  const index = alunos.findIndex((a) => a.cpf === cpf);
+
+  if (index === -1) {
+    return res.status(404).json({ message: "Aluno não encontrado!" });
+  }
+
+  alunos[index] = { ...alunos[index], ...req.body };
+  writeData(alunos);
+  res.status(200).json({ message: "Aluno atualizado com sucesso!" });
+});
+
+// DELETE - remover pelo CPF
+router.delete("/:cpf", (req, res) => {
+  let alunos = readData();
+  const { cpf } = req.params;
+  const novosAlunos = alunos.filter((a) => a.cpf !== cpf);
+
+  if (alunos.length === novosAlunos.length) {
+    return res.status(404).json({ message: "Aluno não encontrado!" });
+  }
+
+  writeData(novosAlunos);
+  res.status(200).json({ message: "Aluno removido com sucesso!" });
+});
+
+module.exports = router;
+```
+
+---
+
+## Ajustes no **public/index.html**
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>CRUD Alunos</title>
+</head>
+<body>
+  <h1>Cadastro de Alunos</h1>
+
+  <form id="formAluno">
+    Nome: <input type="text" id="nome"><br>
+    CPF: <input type="text" id="cpf"><br>
+    Telefone: <input type="text" id="telefone"><br>
+    Email: <input type="text" id="email"><br>
+    Matrícula: <input type="text" id="matricula"><br>
+    Escola: <input type="text" id="escola"><br>
+    <button type="submit">Salvar</button>
+  </form>
+
+  <h2>Lista de Alunos</h2>
+  <ul id="listaAlunos"></ul>
+
+  <script>
+    const API_URL = "http://localhost:3000/alunos";
+
+    // Salvar aluno
+    document.getElementById("formAluno").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const aluno = {
+        nome: document.getElementById("nome").value,
+        cpf: document.getElementById("cpf").value,
+        telefone: document.getElementById("telefone").value,
+        email: document.getElementById("email").value,
+        matricula: document.getElementById("matricula").value,
+        escola: document.getElementById("escola").value,
+      };
+
+      // localStorage
+      localStorage.setItem(aluno.cpf, JSON.stringify(aluno));
+
+      // POST
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(aluno),
+      });
+
+      if (res.ok) {
+        carregarAlunos();
+        e.target.reset();
+      } else {
+        const erro = await res.json();
+        alert(erro.message);
+      }
+    });
+
+    // Carregar lista
+    async function carregarAlunos() {
+      const res = await fetch(API_URL);
+      const alunos = await res.json();
+
+      const lista = document.getElementById("listaAlunos");
+      lista.innerHTML = "";
+      alunos.forEach((aluno) => {
+        const li = document.createElement("li");
+        li.textContent = `${aluno.nome} - ${aluno.cpf} - ${aluno.escola} `;
+
+        // Botão Editar
+        const btnEditar = document.createElement("button");
+        btnEditar.textContent = "Editar";
+        btnEditar.onclick = async () => {
+          const novoNome = prompt("Novo nome:", aluno.nome);
+          if (novoNome) {
+            await fetch(`${API_URL}/${aluno.cpf}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ nome: novoNome }),
+            });
+            carregarAlunos();
+          }
+        };
+
+        // Botão Deletar
+        const btnDeletar = document.createElement("button");
+        btnDeletar.textContent = "Excluir";
+        btnDeletar.onclick = async () => {
+          await fetch(`${API_URL}/${aluno.cpf}`, { method: "DELETE" });
+          carregarAlunos();
+        };
+
+        li.appendChild(btnEditar);
+        li.appendChild(btnDeletar);
+        lista.appendChild(li);
+      });
+    }
+
+    carregarAlunos();
+  </script>
+</body>
+</html>
+```
+
+---
+
+### Agora você está com:
+
+1. **Validação de CPF** no `POST`.
+2. **Middleware de log** no `server.js`.
+3. **Botões de editar e excluir** no front.
+4. **Mensagens de erro/resposta** com status HTTP corretos.
+
+Se o professor mandar “faça uma rota PUT”, você já tem pronto. Se ele mandar “coloque botão excluir no front”, você já tem. Se ele mandar “não deixe cadastrar dois CPFs iguais”, já tem.
+
+Quer que eu te prepare também uma **cola de trechos de código prontos** (tipo mini-snippets) para você escrever na prova sem pensar? Isso é útil se ele pedir algo fora do script, mas ainda dentro do CRUD.
