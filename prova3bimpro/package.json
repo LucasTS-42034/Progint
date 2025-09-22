@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.5.0",
+    "fs": "^0.0.1-security",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^9.0.2",
+    "lmao": "^2.3.0",
+    "npm": "^11.6.0",
+    "some": "^0.1.1",
+    "uuid": "^13.0.0"
+  },
+  "name": "prova3bimpro",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

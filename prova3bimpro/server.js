@@ -6,10 +6,8 @@ const app = express();
 const PORT = 3000;
 const DATA_FILE = path.join(__dirname, 'data.json');
 
-// Middleware
 app.use(express.json());
 
-// Helper functions para ler/escrever arquivo
 const readData = async () => {
     try {
         const data = await fs.readFile(DATA_FILE, 'utf8');
@@ -23,9 +21,7 @@ const writeData = async (data) => {
     await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2));
 };
 
-// CRUD Operations
 
-// CREATE - POST
 app.post('/items', async (req, res) => {
     try {
         const items = await readData();
@@ -41,7 +37,6 @@ app.post('/items', async (req, res) => {
     }
 });
 
-// READ - GET (all)
 app.get('/items', async (req, res) => {
     try {
         const items = await readData();
@@ -51,7 +46,6 @@ app.get('/items', async (req, res) => {
     }
 });
 
-// READ - GET (by id)
 app.get('/items/:id', async (req, res) => {
     try {
         const items = await readData();
@@ -63,7 +57,6 @@ app.get('/items/:id', async (req, res) => {
     }
 });
 
-// UPDATE - PUT
 app.put('/items/:id', async (req, res) => {
     try {
         const items = await readData();
@@ -78,7 +71,6 @@ app.put('/items/:id', async (req, res) => {
     }
 });
 
-// DELETE
 app.delete('/items/:id', async (req, res) => {
     try {
         const items = await readData();
