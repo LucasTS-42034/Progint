@@ -547,3 +547,289 @@ Se você vir `await db.collection('...').get()`, entenda que o código está diz
 4.  **Adicione uma Pequena Funcionalidade:** Tente adicionar um novo campo a um dos itens (ex: adicionar um campo "estoque" a um produto). Você terá que encontrar a rota de criação (POST) e atualização (PUT) e modificar o controller para lidar com esse novo campo.
 
 Se você conseguir fazer esse exercício com um projeto desconhecido, estará muito mais preparado para fazer o mesmo com o projeto do seu professor. Boa sorte!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Com certeza\! Preparar um código completo que cubra todos os pontos é uma ótima forma de estudar.
+
+Aqui está um projeto completo e comentado, dividido em arquivos, exatamente como você poderia encontrar em um repositório. Este código é funcional e você pode rodá-lo diretamente na sua máquina para testar e entender cada parte.
+
+-----
+
+### **Objetivo do Código**
+
+Criar uma API REST para gerenciar uma lista de "produtos".
+
+  * **Rotas Públicas**:
+      * `POST /api/login`: Para autenticar e receber um token.
+  * **Rotas Protegidas (exigem token)**:
+      * `GET /api/produtos`: Lista todos os produtos.
+      * `POST /api/produtos`: Adiciona um novo produto.
+      * `PUT /api/produtos/:id`: Atualiza um produto existente.
+      * `DELETE /api/produtos/:id`: Deleta um produto.
+
+### **Passo 1: Estrutura dos Arquivos**
+
+Crie uma pasta para o seu projeto e, dentro dela, crie os seguintes arquivos:
+
+```
+minha-api/
+├── 📄 index.js           # Arquivo principal que inicia o servidor
+├── 📄 routes.js           # Define todas as rotas da API
+├── 📄 authMiddleware.js    # Middleware para verificar o token JWT
+├── 📄 db.json              # Nosso "banco de dados" em arquivo
+└── 📄 package.json         # (Será criado pelo npm)
+```
+
+### **Passo 2: Instalar as Dependências**
+
+Abra o terminal na pasta `minha-api` e rode os seguintes comandos:
+
+```bash
+# Inicia o projeto Node.js
+npm init -y
+
+# Instala o Express, o JWT para tokens e o UUID para gerar IDs únicos
+npm install express jsonwebtoken uuid
+```
+
+### **Passo 3: O Código (Copie e Cole em cada arquivo correspondente)**
+
+#### **Arquivo: `db.json`**
+
+Este arquivo simula nosso banco de dados. Comece com alguns dados de exemplo.
+
+```json
+{
+  "produtos": [
+    {
+      "id": "c1f7a2d3-1b4e-4b8d-9c8a-7e6d5f4c3b2a",
+      "nome": "Notebook Gamer",
+      "preco": 5999.90
+    },
+    {
+      "id": "e5d8f9a2-3c7b-4d1f-8e9a-6b4c3d2a1f0b",
+      "nome": "Teclado Mecânico RGB",
+      "preco": 349.50
+    }
+  ]
+}
+```
+
+#### **Arquivo: `authMiddleware.js`**
+
+Este é o "segurança" da nossa API. Ele vai interceptar as requisições para rotas protegidas e verificar se o token JWT enviado é válido.
+
+```javascript
+// authMiddleware.js
+
+const jwt = require('jsonwebtoken');
+
+// Em um projeto real, esta chave estaria em um arquivo .env, nunca direto no código!
+const CHAVE_SECRETA = 'senai123';
+
+function verificarToken(req, res, next) {
+  // O token geralmente é enviado no cabeçalho de autorização no formato "Bearer TOKEN"
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ mensagem: 'Acesso negado! Token não fornecido.' });
+  }
+
+  try {
+    // Tenta verificar se o token é válido usando nossa chave secreta
+    const decoded = jwt.verify(token, CHAVE_SECRETA);
+    req.usuarioId = decoded.id; // Adiciona o ID do usuário à requisição para uso futuro
+    next(); // Se o token for válido, permite que a requisição continue
+  } catch (error) {
+    return res.status(403).json({ mensagem: 'Token inválido ou expirado.' });
+  }
+}
+
+module.exports = verificarToken;
+```
+
+#### **Arquivo: `routes.js`**
+
+Aqui definimos todos os endpoints da API e a lógica de cada um (CRUD).
+
+```javascript
+// routes.js
+
+const express = require('express');
+const router = express.Router();
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const verificarToken = require('./authMiddleware');
+
+const dbPath = './db.json';
+// Em um projeto real, esta chave estaria em um arquivo .env!
+const CHAVE_SECRETA = 'senai123';
+
+// Funções auxiliares para ler e escrever no nosso "banco de dados" JSON
+const lerDados = () => JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+const escreverDados = (dados) => fs.writeFileSync(dbPath, JSON.stringify(dados, null, 2));
+
+// --- ROTA PÚBLICA ---
+
+// Rota de Login
+router.post('/login', (req, res) => {
+  const { usuario, senha } = req.body;
+
+  // Simulação de verificação de usuário
+  if (usuario === 'admin' && senha === '123') {
+    const idUsuario = 1; // ID do usuário que viria do banco de dados
+    const token = jwt.sign({ id: idUsuario }, CHAVE_SECRETA, { expiresIn: '1h' }); // Token expira em 1 hora
+    return res.json({ token });
+  }
+  
+  return res.status(401).json({ mensagem: 'Usuário ou senha inválidos.' });
+});
+
+
+// --- ROTAS PROTEGIDAS (exigem token) ---
+
+// READ (GET) - Listar todos os produtos
+router.get('/produtos', verificarToken, (req, res) => {
+  const { produtos } = lerDados();
+  res.json(produtos);
+});
+
+// CREATE (POST) - Criar um novo produto
+router.post('/produtos', verificarToken, (req, res) => {
+  const { nome, preco } = req.body;
+  if (!nome || !preco) {
+      return res.status(422).json({ mensagem: "Nome e preço são obrigatórios." });
+  }
+
+  const dados = lerDados();
+  const novoProduto = { id: uuidv4(), nome, preco };
+  dados.produtos.push(novoProduto);
+  escreverDados(dados);
+  
+  res.status(201).json({ mensagem: "Produto criado com sucesso!", produto: novoProduto });
+});
+
+// UPDATE (PUT) - Atualizar um produto pelo ID
+router.put('/produtos/:id', verificarToken, (req, res) => {
+  const { id } = req.params;
+  const { nome, preco } = req.body;
+  const dados = lerDados();
+  const index = dados.produtos.findIndex(p => p.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ mensagem: "Produto não encontrado." });
+  }
+
+  const produtoAtualizado = { ...dados.produtos[index], nome, preco };
+  dados.produtos[index] = produtoAtualizado;
+  escreverDados(dados);
+
+  res.json({ mensagem: "Produto atualizado com sucesso!", produto: produtoAtualizado });
+});
+
+// DELETE (DELETE) - Deletar um produto pelo ID
+router.delete('/produtos/:id', verificarToken, (req, res) => {
+  const { id } = req.params;
+  const dados = lerDados();
+  const produtosFiltrados = dados.produtos.filter(p => p.id !== id);
+
+  if (dados.produtos.length === produtosFiltrados.length) {
+      return res.status(404).json({ mensagem: "Produto não encontrado." });
+  }
+
+  dados.produtos = produtosFiltrados;
+  escreverDados(dados);
+
+  res.status(200).json({ mensagem: "Produto deletado com sucesso." });
+});
+
+
+module.exports = router;
+```
+
+#### **Arquivo: `index.js`**
+
+Este é o ponto de entrada. Ele cria o servidor Express e conecta tudo.
+
+```javascript
+// index.js
+
+const express = require('express');
+const routes = require('./routes'); // Importa nossas rotas
+
+const app = express();
+const port = 3000;
+
+// Middleware para permitir que o Express entenda requisições com corpo em JSON
+app.use(express.json());
+
+// Define um prefixo para todas as rotas. Ex: http://localhost:3000/api/login
+app.use('/api', routes);
+
+// Rota raiz apenas para verificar se a API está no ar
+app.get('/', (req, res) => {
+    res.send('API de Produtos está funcionando! Acesse /api/produtos para ver os dados.');
+});
+
+app.listen(port, () => {
+  console.log(`Servidor rodando em http://localhost:${port}`);
+});
+```
+
+### **Passo 4: Como Rodar e Testar**
+
+1.  **Inicie o Servidor**: No terminal, na pasta do projeto, execute:
+
+    ```bash
+    node index.js
+    ```
+
+    Você deverá ver a mensagem "Servidor rodando em http://localhost:3000".
+
+2.  **Use o Insomnia ou Postman para Testar**:
+
+      * **Obter o Token (Login)**:
+
+          * Faça uma requisição **POST** para `http://localhost:3000/api/login`.
+          * No corpo (`Body`) da requisição, envie o seguinte JSON:
+            ```json
+            {
+                "usuario": "admin",
+                "senha": "123"
+            }
+            ```
+          * A resposta será um JSON com o seu token. **Copie o valor do token**.
+
+      * **Acessar uma Rota Protegida (Ex: Listar Produtos)**:
+
+          * Faça uma requisição **GET** para `http://localhost:3000/api/produtos`.
+          * Vá para a aba de **Headers** (Cabeçalhos) da sua requisição.
+          * Crie um novo cabeçalho chamado `Authorization`.
+          * No valor, coloque ` Bearer  ` (com um espaço no final) e **cole o token** que você copiou. Ficará assim: `Bearer eyJhbGciOiJIUzI1NiIsIn...`
+          * Envie a requisição. Agora você deverá ver a lista de produtos\!
+
+      * **Testar as outras rotas**: Use o mesmo método (enviando o token no header `Authorization`) para testar as rotas de POST, PUT e DELETE.
+
+Este código cobre todos os requisitos da sua prova de uma maneira organizada e prática. Estude o fluxo, entenda o papel de cada arquivo e você estará muito bem preparado\! Boa sorte\!
