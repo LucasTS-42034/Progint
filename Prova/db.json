@@ -1,0 +1,14 @@
+{
+    "users": [
+      {
+        "nome": "Carlos",
+        "email": "Carlosdetal@gmail.com",
+        "senha":  69420
+      },
+      {
+        "nome": "Tobias",
+        "email": "TrickyTony@gmail.com",
+        "senha": 1235813
+      }
+    ]
+  }
